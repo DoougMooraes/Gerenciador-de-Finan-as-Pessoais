@@ -58,9 +58,5 @@ function carregarTransacoes() {
         .catch(error => console.error('Erro ao carregar transações:', error));
 }
 
-// Verifica se a página index.html está carregada e chama carregarTransacoes
-window.onload = () => {
-    if (window.location.pathname.includes("index.html")) {
-        carregarTransacoes();
-    }
-};
+
+

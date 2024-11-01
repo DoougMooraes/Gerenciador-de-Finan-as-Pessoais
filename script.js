@@ -20,6 +20,8 @@ let entradas = 0;
 let saidas = 0;
 
 
+
+
 window.onload = () => {
     // Verifica se o usuário está logado
     const usuarioId = localStorage.getItem('usuarioId');
@@ -30,20 +32,6 @@ window.onload = () => {
         carregarTransacoes(); // Se estiver logado, carrega as transações
     }
 };
-
-document.getElementById('sair-button').addEventListener('click', () => {
-    // Limpa o ID do usuário do localStorage
-    localStorage.removeItem('usuarioId');
-    // Redireciona para a página de login
-    window.location.href = "login.html"; // Certifique-se de que o caminho está correto
-});
-
-// Função para adicionar transação ao histórico
-function adicionarTransacaoAoHistorico(descricao, valor, tipo) {
-    const li = document.createElement('li'); // Certifique-se de que 'li' está definido aqui
-    li.textContent = `${descricao}: R$ ${valor.toFixed(2)} (${tipo})`; // Use 'valor.toFixed' apenas se 'valor' for um número
-    historicoTransacoes.appendChild(li);
-}
 
 // Função para carregar as transações ao fazer login
 function carregarTransacoes() {
@@ -69,7 +57,6 @@ function carregarTransacoes() {
         })
         .catch(error => console.error('Erro ao carregar transações:', error));
 }
-
 
 // Configuração do gráfico
 const ctx = document.getElementById('meuGrafico').getContext('2d');
@@ -101,6 +88,7 @@ const meuGrafico = new Chart(ctx, {
     }
 });
 
+
 // Função para adicionar transação
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -131,6 +119,8 @@ form.addEventListener('submit', (e) => {
     .catch(error => console.error('Erro ao adicionar transação:', error));
 });
 
+
+
 // Função para atualizar saldos
 function atualizarSaldos(valor, tipo) {
     const mes = new Date().getMonth();
@@ -150,6 +140,15 @@ function atualizarResumo() {
     saldo.textContent = (parseFloat(entradas) - parseFloat(saidas)).toFixed(2); // Adicione parseFloat aqui
 }
 
+// Função para definir orçamentos
+document.getElementById('orcamento-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    orcamentoEntrada = parseFloat(orcamentoEntradaInput.value) || 0;
+    orcamentoSaida = parseFloat(orcamentoSaidaInput.value) || 0;
+    verificarOrcamento();
+    orcamentoEntradaInput.value = '';
+    orcamentoSaidaInput.value = '';
+});
 
 // Função para atualizar o gráfico
 function adicionarTransacaoAoHistorico(descricao, valor, tipo) {
@@ -168,42 +167,11 @@ function adicionarTransacaoAoHistorico(descricao, valor, tipo) {
     lista.appendChild(item);
 }
 
-
-
     // Converta o valor para número se não for
     const valorNumerico = typeof valor === 'number' ? valor : parseFloat(valor) || 0;
 
+    
 
- // Limpa o histórico antes de carregar as novas transações
-     historicoTransacoes.innerHTML = ''; // Limpa a lista existente
-
-    fetch(`http://localhost:5500/transacoes/${usuarioId}`)
-        .then(response => response.json())
-        .then(transacoes => {
-            console.log('Transações carregadas:', transacoes); // Adicione este log para depuração
-            transacoes.forEach(transacao => {
-                const descricao = transacao.descricao || 'Não especificado';
-                const valor = transacao.valor || 0.00;
-                const tipo = transacao.tipo || 'Não definido';
-                
-                adicionarTransacaoAoHistorico(descricao, valor, tipo);
-                atualizarSaldos(valor, tipo);
-            });
-            atualizarResumo(); // Atualiza o resumo após carregar as transações
-            atualizarGrafico(); // Atualiza o gráfico após carregar as transações
-        })
-        .catch(error => console.error('Erro ao carregar transações:', error));
-
-
-// Função para definir orçamentos
-document.getElementById('orcamento-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    orcamentoEntrada = parseFloat(orcamentoEntradaInput.value) || 0;
-    orcamentoSaida = parseFloat(orcamentoSaidaInput.value) || 0;
-    verificarOrcamento();
-    orcamentoEntradaInput.value = '';
-    orcamentoSaidaInput.value = '';
-});
 
 // Função para verificar orçamentos
 function verificarOrcamento() {
@@ -230,4 +198,21 @@ document.getElementById('exportar-pdf').addEventListener('click', () => {
     });
 
     doc.save('transacoes.pdf');
+
+    document.getElementById('sair-button').addEventListener('click', () => {
+        // Limpa o ID do usuário do localStorage
+        localStorage.removeItem('usuarioId');
+        // Redireciona para a página de login
+        window.location.href = "login.html"; // Certifique-se de que o caminho está correto
+    });
+
+    // Função para definir orçamentos
+document.getElementById('orcamento-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    orcamentoEntrada = parseFloat(orcamentoEntradaInput.value) || 0;
+    orcamentoSaida = parseFloat(orcamentoSaidaInput.value) || 0;
+    verificarOrcamento();
+    orcamentoEntradaInput.value = '';
+    orcamentoSaidaInput.value = '';
+});
 });
