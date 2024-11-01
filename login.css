@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc; /* Cor de fundo suave */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura da tela */
+}
+
+.container {
+    background-color: white; /* Fundo branco para o formulário */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Largura do formulário */
+    text-align: center; /* Centraliza o texto */
+}
+
+h1 {
+    color: #007bff; /* Cor do título */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+input {
+    width: 100%; /* Largura total */
+    padding: 10px; /* Espaço interno */
+    margin: 10px 0; /* Espaço entre os campos */
+    border: 1px solid #ccc; /* Bordas suaves */
+    border-radius: 4px; /* Cantos arredondados */
+}
+
+button {
+    width: 100%; /* Largura total */
+    padding: 10px;
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Sem bordas */
+    border-radius: 4px; /* Cantos arredondados */
+    cursor: pointer; /* Muda o cursor para mão ao passar */
+}
+
+button:hover {
+    background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+}
+
+p {
+    margin-top: 10px; /* Espaço acima do parágrafo */
+}
+
+a {
+    color: #007bff; /* Cor do link */
+    text-decoration: none; /* Remove sublinhado */
+}
+
+a:hover {
+    text-decoration: underline; /* Sublinha ao passar o mouse */
+}

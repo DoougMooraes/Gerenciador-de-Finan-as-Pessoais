@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Finanças Pessoais</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerenciador de Finanças Pessoais</h1>
+        <div class="main-content">
+
+        
+
+
+            <!-- Quadro 1: Gerenciador de Finanças -->
+            <div class="quadro-gerenciador">
+                <form id="transacao-form">
+                    <input type="text" id="descricao" placeholder="Descrição da transação" required>
+                    <input type="number" id="valor" placeholder="Valor" required>
+                    <select id="tipo">
+                        <option value="entrada">Entrada</option>
+                        <option value="saida">Saída</option>
+                    </select>
+                    <button type="submit">Adicionar Transação</button>
+                </form>
+                <canvas id="meuGrafico" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Quadro 2: Resumo e Histórico -->
+            <div class="quadro-resumo">
+                <h2>Resumo</h2>
+                <p>Total Entradas: <span id="total-entradas">0</span></p>
+                <p>Total Saídas: <span id="total-saidas">0</span></p>
+                <p>Saldo: <span id="saldo">0</span></p>
+
+                <h2>Histórico de Transações</h2>
+                <ul id="historico-transacoes"></ul>
+
+                <h2>Definir Orçamento</h2>
+                <form id="orcamento-form">
+                    <input type="number" id="orcamento-entrada" placeholder="Orçamento para Entradas">
+                    <input type="number" id="orcamento-saida" placeholder="Orçamento para Saídas">
+                    <button type="submit">Definir Orçamentos</button>
+                </form>
+                <div id="aviso-orcamento"></div>
+                
+                <h5>
+                    <button id="exportar-pdf">Exportar PDF</button>
+                </h5>
+                <button id="sair-button">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para adicionar transação ao histórico
+        function adicionarTransacaoAoHistorico(descricao, valor, tipo) {
+            const lista = document.getElementById("lista-transacoes");
+            const item = document.createElement("li");
+            item.textContent = `${tipo === "entrada" ? "+" : "-"} R$${valor} - ${descricao}`;
+            item.className = tipo; // Adiciona classe 'entrada' ou 'saida' para CSS
+            lista.appendChild(item);
+        }
+
+        
+
+        // Executa o carregamento das transações ao carregar a página
+        document.addEventListener("DOMContentLoaded", () => {
+            // Usuário deve estar logado para acessar essa página e usuárioId deve ser obtido no login
+            const usuarioId = localStorage.getItem("usuarioId");
+            if (usuarioId) {
+                carregarTransacoes(usuarioId);
+            } else {
+                alert("Usuário não autenticado!");
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
